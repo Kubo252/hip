@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
+import android.content.Intent
+import sk.tuke.hip_project.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private var dotCount = 0
     private val handler = Handler(Looper.getMainLooper())
     private val ANIMATION_DELAY = 1000 // 1 second between each animation frame
+    private val LOADING_DURATION = 3200 // Total loading time in milliseconds
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         // Start loading animation
         startLoadingAnimation()
+
+        // Navigate to menu activity after loading completes
+        handler.postDelayed({
+            navigateToMainMenu()
+        }, LOADING_DURATION.toLong())
     }
 
     private fun startLoadingAnimation() {
@@ -51,6 +59,12 @@ class MainActivity : AppCompatActivity() {
         for (i in dots.indices) {
             dots[i].visibility = if (i < dotCount) View.VISIBLE else View.INVISIBLE
         }
+    }
+
+    private fun navigateToMainMenu() {
+        val intent = Intent(this, MenuActivity::class.java)
+        startActivity(intent)
+        finish() // Close this activity so user can't go back to splash screen
     }
 
     override fun onDestroy() {
