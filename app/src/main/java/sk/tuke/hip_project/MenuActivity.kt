@@ -1,11 +1,13 @@
 package sk.tuke.hip_project
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
-import sk.tuke.hip_project.R
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MenuActivity : AppCompatActivity() {
 
@@ -28,8 +30,9 @@ class MenuActivity : AppCompatActivity() {
         }
 
         mapButton.setOnClickListener {
-            Toast.makeText(this, "Mapa TUKE clicked", Toast.LENGTH_SHORT).show()
-            // Add map functionality here
+            val mapUrl = "https://at.tuke.sk/map"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl))
+            startActivity(intent)
         }
 
         webButton.setOnClickListener {
@@ -38,8 +41,8 @@ class MenuActivity : AppCompatActivity() {
         }
 
         aboutButton.setOnClickListener {
-            Toast.makeText(this, "O nás clicked", Toast.LENGTH_SHORT).show()
-            // Add about functionality here
+            val intent = Intent(this, AboutUsActivity::class.java)
+            startActivity(intent)
         }
 
         settingsButton.setOnClickListener {
