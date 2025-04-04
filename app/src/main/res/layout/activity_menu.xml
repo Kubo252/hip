@@ -124,14 +124,6 @@
             android:contentDescription="Settings"
             android:src="@drawable/settings" />
 
-        <ImageButton
-            android:id="@+id/closeButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Close"
-            android:src="@drawable/cancel" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

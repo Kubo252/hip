@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="#B8A369">
 
     <ImageView
         android:id="@+id/logoImageView"
@@ -56,39 +57,110 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:id="@+id/textsection"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="17dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal|top"
+            android:text="@string/about_us_string"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/text1763_8_"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/AboutUsQuestionText"
+        android:layout_width="401dp"
+        android:layout_height="48dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="17dp"
         android:fontFamily="sans-serif"
-        android:gravity="center_horizontal|top"
-        android:text="@string/about_us_string"
+        android:gravity="top"
+        android:text="MÁTE OTÁZKU ALEBO PRIPOMIENKU, KONTAKTUJTE NÁS"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/section"
-        app:layout_constraintEnd_toEndOf="@+id/section"
-        app:layout_constraintStart_toStartOf="@+id/section"
-        app:layout_constraintTop_toTopOf="@+id/section"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
+        app:layout_constraintVertical_bias="0.65"
+        tools:ignore="MissingConstraints,RtlCompat" />
 
-    <TextView
-        android:id="@+id/AboutUsQuestionText"
-        android:layout_height="10dp"
-        android:layout_width="10dp"
-        tools:ignore="MissingConstraints" />
+    <ImageView
+        android:id="@+id/logoImageView2"
+        android:layout_width="85dp"
+        android:layout_height="135dp"
+        android:src="@drawable/tuk_end_logo"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AboutUsQuestionText"
+        app:layout_constraintVertical_bias="0.9" />
 
+    <Button
+        android:id="@+id/contactButton"
+        android:layout_width="154dp"
+        android:layout_height="51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="#B8A369"
+        android:text="Kontakt"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AboutUsQuestionText"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <LinearLayout
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#1A1A1A"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Settings"
+            android:src="@drawable/back_button" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Settings"
+            android:src="@drawable/settings" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

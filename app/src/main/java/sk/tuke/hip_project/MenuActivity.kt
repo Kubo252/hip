@@ -21,12 +21,12 @@ class MenuActivity : AppCompatActivity() {
         val webButton = findViewById<Button>(R.id.webButton)
         val aboutButton = findViewById<Button>(R.id.aboutButton)
         val settingsButton = findViewById<ImageButton>(R.id.settingsButton)
-        val closeButton = findViewById<ImageButton>(R.id.closeButton)
+
 
         // Set up button click listeners
         navigationButton.setOnClickListener {
-            Toast.makeText(this, "Navigácia clicked", Toast.LENGTH_SHORT).show()
-            // Add navigation functionality here
+            val intent = Intent(this, NavigationActivity::class.java)
+            startActivity(intent)
         }
 
         mapButton.setOnClickListener {
@@ -36,8 +36,9 @@ class MenuActivity : AppCompatActivity() {
         }
 
         webButton.setOnClickListener {
-            Toast.makeText(this, "TUKE web clicked", Toast.LENGTH_SHORT).show()
-            // Add web functionality here
+            val webUrl = "https://www.tuke.sk/sk"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webUrl))
+            startActivity(intent)
         }
 
         aboutButton.setOnClickListener {
@@ -50,9 +51,5 @@ class MenuActivity : AppCompatActivity() {
             // Add settings functionality here
         }
 
-        closeButton.setOnClickListener {
-            // Close the app
-            finish()
-        }
     }
 }
