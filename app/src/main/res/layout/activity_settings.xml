@@ -11,11 +11,9 @@
         android:layout_height="33.16dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="44dp"
-        android:layout_marginBottom="654dp"
+        android:layout_marginTop="40dp"
         android:contentDescription="logoImage"
-        android:src="@drawable/tuke_end_logo2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,8 +26,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif"
-        android:text="ZADAJTE NÁZOV MIESTNOSTI Z ROZVRHU"
+        android:text="NASTAVENIA APLIKÁCIE TUKEND"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -42,8 +41,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_search_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="380dp"
+        android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
@@ -56,17 +55,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/et_search_input"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="150dp"
                 android:background="@null"
-                android:hint="L9-A204"
+                android:hint="DARK MODE"
                 android:inputType="text"
                 android:padding="3dp"
                 android:textColor="#000000"
@@ -74,47 +71,25 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_search"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.473" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="10dp"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/et_search_input"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/btn_search"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Search"
-                android:src="@android:drawable/ic_search_category_default"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
-    <View
-        android:id="@+id/img_9547_1"
-        android:layout_width="325dp"
-        android:layout_height="566dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/navigation_map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_search_container" />
-
-
-    <ImageView
-        android:id="@+id/iv_location_marker"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_location_marker"
-        tools:layout_editor_absoluteX="181dp"
-        tools:layout_editor_absoluteY="367dp"
-        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/bottomNavBar"
@@ -135,15 +110,50 @@
             android:background="@android:color/transparent"
             android:contentDescription="Settings"
             android:src="@drawable/back_button" />
-
-        <ImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Settings"
-            android:src="@drawable/settings" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="DARK MODE JE ZATIAĽ
+        DOSTUPNÝ IBA V NASTAVENIACH"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_search_container" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:text="APLIKÁCIA JE VO VÝVOJI
+        A DETAILNEJŠIE NASTAVENIA BUDÚ
+        DOSTUPNÉ V NÁSLEDUJÚCICH VERZIÁCH"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_search_container" />
+
+    <Button
+        android:id="@+id/navigationButton"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="90dp"
+        android:backgroundTint="#B8A369"
+        android:text="Kontakt"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

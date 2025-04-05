@@ -8,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-
 class MenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +20,6 @@ class MenuActivity : AppCompatActivity() {
         val webButton = findViewById<Button>(R.id.webButton)
         val aboutButton = findViewById<Button>(R.id.aboutButton)
         val settingsButton = findViewById<ImageButton>(R.id.settingsButton)
-
 
         // Set up button click listeners
         navigationButton.setOnClickListener {
@@ -47,9 +45,8 @@ class MenuActivity : AppCompatActivity() {
         }
 
         settingsButton.setOnClickListener {
-            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
-            // Add settings functionality here
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
-
     }
 }
