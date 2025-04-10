@@ -108,6 +108,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/floor_image"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:contentDescription="@string/floor_image"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.79"
+        tools:ignore="MissingConstraints" />
+
     <!--<View
         android:id="@+id/img_9547_1"
         android:layout_width="325dp"

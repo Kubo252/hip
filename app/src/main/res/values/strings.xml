@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">hip_project</string>
     <string name="about_us_string">Sme skupina študentov študujúcich na Technickej univerzite v Košiciach na Fakulte elektrotechniky a informatiky v odbore Hospodárska informatika. Nápad inovatívnej aplikácie vznikol na hodinách predmetu Hospodárska informatika v praxi. Našim cieľom je prieniesť niečo nové, a tak prispieť k zdokonaľovaniu našej univerzity. V prípade pripomienok a otázok nás neváhajte kontaktovať. \n\nJakub Szabadoš, Dominik Vrážel, Michal Jiříček</string>
+    <string name="floor_image">Obrázok poschodia</string>
 </resources>
