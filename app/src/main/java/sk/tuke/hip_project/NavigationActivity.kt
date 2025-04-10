@@ -123,5 +123,11 @@ class NavigationActivity : AppCompatActivity() {
                     searchResultTextView.text = "Chyba pri načítaní: ${e.message}"
                 }
         }
+
+        val settingsButton = findViewById<ImageButton>(R.id.settingsButton)
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

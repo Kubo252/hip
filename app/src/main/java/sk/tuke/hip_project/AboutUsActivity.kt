@@ -37,5 +37,11 @@ class AboutUsActivity : AppCompatActivity() {
                 Toast.makeText(this, "No email app found. Please install an email client.", Toast.LENGTH_LONG).show()
             }
         }
+
+        val settingsButton = findViewById<ImageButton>(R.id.settingsButton)
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
