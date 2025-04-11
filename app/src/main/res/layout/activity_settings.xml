@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logoImageView"
@@ -91,9 +92,9 @@
         android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:orientation="horizontal"
         android:background="#1A1A1A"
         android:gravity="center"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
