@@ -111,14 +111,14 @@
     <ImageView
         android:id="@+id/floor_image"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="360dp"
         android:contentDescription="@string/floor_image"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79"
+        app:layout_constraintVertical_bias="0.89"
         tools:ignore="MissingConstraints" />
 
     <!--<View

@@ -30,12 +30,12 @@ class NavigationActivity : AppCompatActivity() {
             finish() // Optional: close AboutUsActivity so user can't come back here with back button
         }
 
-        /*val buildingData = hashMapOf(
+        val buildingData = hashMapOf(
             "name" to "TUKE hlavná budova",
             "wings" to listOf("L9B", "L9A")
-        )*/
+        )
 
-        /*db.collection("buildings")
+        db.collection("buildings")
             .add(buildingData)
             .addOnSuccessListener { buildingRef ->
                 // Now add a room directly under "rooms" subcollection of this building
@@ -80,7 +80,7 @@ class NavigationActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 println("Error adding building: $e")
-            }*/
+            }
 
         val searchInput = findViewById<EditText>(R.id.et_search_input)
         val searchButton = findViewById<ImageButton>(R.id.btn_search)
