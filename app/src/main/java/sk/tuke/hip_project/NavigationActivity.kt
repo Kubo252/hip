@@ -3,6 +3,7 @@ package sk.tuke.hip_project
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.RemoteException
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
@@ -13,9 +14,10 @@ import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.firestore
 import android.widget.ImageView
+import org.altbeacon.beacon.*
 
-class NavigationActivity : AppCompatActivity() {
-
+class NavigationActivity : AppCompatActivity(), BeaconConsumer {
+    private lateinit var beaconManager: BeaconManager
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -30,12 +32,12 @@ class NavigationActivity : AppCompatActivity() {
             finish() // Optional: close AboutUsActivity so user can't come back here with back button
         }
 
-        val buildingData = hashMapOf(
+        /*val buildingData = hashMapOf(
             "name" to "TUKE hlavná budova",
             "wings" to listOf("L9B", "L9A")
-        )
+        )*/
 
-        db.collection("buildings")
+        /*db.collection("buildings")
             .add(buildingData)
             .addOnSuccessListener { buildingRef ->
                 // Now add a room directly under "rooms" subcollection of this building
@@ -80,7 +82,7 @@ class NavigationActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 println("Error adding building: $e")
-            }
+            }*/
 
         val searchInput = findViewById<EditText>(R.id.et_search_input)
         val searchButton = findViewById<ImageButton>(R.id.btn_search)
@@ -141,7 +143,63 @@ class NavigationActivity : AppCompatActivity() {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
+
+        beaconManager = BeaconManager.getInstanceForApplication(this)
+        beaconManager.beaconParsers.add(
+            BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
+        )
+        beaconManager.bind(this)
+    }
+
+    override fun onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier { beacons, _ ->
+            if (beacons.isNotEmpty()) {
+                val closest = beacons.minByOrNull { it.distance }
+                val major = closest?.id2?.toString()?.toIntOrNull()
+                val minor = closest?.id3?.toString()?.toIntOrNull()
+
+                runOnUiThread {
+                    val floorImages = mapOf(
+                        1 to R.drawable.tuke_floor1,
+                        2 to R.drawable.tuke_floor2,
+                        3 to R.drawable.tuke_floor3,
+                        4 to R.drawable.tuke_floor4,
+                        5 to R.drawable.tuke_floor5,
+                    )
+
+                    val detectedFloor = when (major) {
+                        1 -> 1
+                        2 -> 2
+                        else -> null
+                    }
+
+                    val floorImageView = findViewById<ImageView>(R.id.floor_image)
+
+                    if (detectedFloor != null) {
+                        Toast.makeText(this, "User is on floor $detectedFloor", Toast.LENGTH_SHORT).show()
+                        val imageRes = floorImages[detectedFloor]
+                        if (imageRes != null) {
+                            floorImageView.setImageResource(imageRes)
+                        }
+                    } else {
+                        Toast.makeText(this, "Unknown beacon or floor", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(Region("all-beacons", null, null, null))
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        beaconManager.unbind(this)
     }
 }
+
+
 
 
