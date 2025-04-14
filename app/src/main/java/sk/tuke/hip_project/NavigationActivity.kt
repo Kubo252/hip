@@ -15,9 +15,18 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.firestore
 import android.widget.ImageView
 import org.altbeacon.beacon.*
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+
 
 class NavigationActivity : AppCompatActivity(), BeaconConsumer {
     private lateinit var beaconManager: BeaconManager
+    private val PERMISSION_REQUEST_CODE = 1001
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -148,7 +157,66 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager.beaconParsers.add(
             BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         )
-        beaconManager.bind(this)
+
+        checkAndRequestPermissions()
+    }
+
+    private fun checkAndRequestPermissions() {
+        val permissionsNeeded = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            permissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            permissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (permissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsNeeded.toTypedArray(), PERMISSION_REQUEST_CODE)
+        } else {
+            checkBluetoothEnabled()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun checkBluetoothEnabled() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Bluetooth oprávnenie nie je udelené", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        try {
+            val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+            val bluetoothAdapter = bluetoothManager.adapter
+
+            if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled) {
+                Toast.makeText(this, "Bluetooth nie je zapnutý", Toast.LENGTH_LONG).show()
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBtIntent, 1002)
+            } else {
+                beaconManager.bind(this)
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Chyba pri prístupe k Bluetooth: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                checkBluetoothEnabled()
+            } else {
+                Toast.makeText(this, "Bluetooth a lokalizačné oprávnenia sú potrebné", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onBeaconServiceConnect() {
@@ -156,7 +224,7 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
             if (beacons.isNotEmpty()) {
                 val closest = beacons.minByOrNull { it.distance }
                 val major = closest?.id2?.toString()?.toIntOrNull()
-                val minor = closest?.id3?.toString()?.toIntOrNull()
+//                val minor = closest?.id3?.toString()?.toIntOrNull()
 
                 runOnUiThread {
                     val floorImages = mapOf(
@@ -170,19 +238,22 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
                     val detectedFloor = when (major) {
                         1 -> 1
                         2 -> 2
+                        3 -> 3
+                        4 -> 4
+                        5 -> 5
                         else -> null
                     }
 
                     val floorImageView = findViewById<ImageView>(R.id.floor_image)
+                    val currentFloorTextView = findViewById<TextView>(R.id.tv_current_floor)
 
                     if (detectedFloor != null) {
-                        Toast.makeText(this, "User is on floor $detectedFloor", Toast.LENGTH_SHORT).show()
-                        val imageRes = floorImages[detectedFloor]
-                        if (imageRes != null) {
-                            floorImageView.setImageResource(imageRes)
+                        currentFloorTextView.text = "Aktuálne poschodie: $detectedFloor"
+                        floorImages[detectedFloor]?.let {
+                            floorImageView.setImageResource(it)
                         }
                     } else {
-                        Toast.makeText(this, "Unknown beacon or floor", Toast.LENGTH_SHORT).show()
+                        currentFloorTextView.text = "Aktuálne poschodie: Neznáme"
                     }
                 }
             }
