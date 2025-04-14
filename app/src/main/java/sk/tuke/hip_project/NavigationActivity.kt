@@ -27,6 +27,8 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
     private lateinit var beaconManager: BeaconManager
     private val PERMISSION_REQUEST_CODE = 1001
 
+    private var targetFloor: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -122,15 +124,15 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
                     if (!documents.isEmpty) {
                         val firstDoc = documents.first()
                         val name = firstDoc.getString("name") ?: "Neznáma"
-                        val floor = firstDoc.getLong("floor") ?: 0
+                        val floor = firstDoc.getLong("floor")?.toInt() ?: 0
                         val wing = firstDoc.getString("wing") ?: "?"
 
+                        targetFloor = floor // <-- save target floor globally
                         // Text result
                         val resultText = "Miestnosť: $name\nPoschodie: $floor, Krídlo: $wing"
                         searchResultTextView.text = resultText
 
-                        Log.d("RoomSearch", "Found floor: $floor")
-                        val imageRes = floorImages[floor]
+                        val imageRes = floorImages[floor.toLong()]
                         if (imageRes != null) {
                             floorImageView.setImageResource(imageRes)
                         } else {
@@ -246,14 +248,27 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
 
                     val floorImageView = findViewById<ImageView>(R.id.floor_image)
                     val currentFloorTextView = findViewById<TextView>(R.id.tv_current_floor)
+                    val directionTextView = findViewById<TextView>(R.id.tv_direction)
 
                     if (detectedFloor != null) {
                         currentFloorTextView.text = "Aktuálne poschodie: $detectedFloor"
                         floorImages[detectedFloor]?.let {
                             floorImageView.setImageResource(it)
                         }
+
+
+                        val directionMessage = targetFloor?.let {
+                            when {
+                                detectedFloor < it -> "Choď o poschodie vyššie"
+                                detectedFloor > it -> "Choď o poschodie nižšie"
+                                else -> "Si na správnom poschodí"
+                            }
+                        } ?: "Cieľová miestnosť nebola zvolená"
+
+                        directionTextView.text = directionMessage
+
                     } else {
-                        currentFloorTextView.text = "Aktuálne poschodie: Neznáme"
+                        currentFloorTextView.text = "Aktuálne poschodie: Načítavam"
                     }
                 }
             }
