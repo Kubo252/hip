@@ -28,6 +28,9 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
     private val PERMISSION_REQUEST_CODE = 1001
 
     private var targetFloor: Int? = null
+    private var lastDetectedFloor: Int? = null
+    private var lastDistance: Double = Double.MAX_VALUE
+    private val DISTANCE_THRESHOLD = 2.0 // meters
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -225,17 +228,9 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager.addRangeNotifier { beacons, _ ->
             if (beacons.isNotEmpty()) {
                 val closest = beacons.minByOrNull { it.distance }
-                val major = closest?.id2?.toString()?.toIntOrNull()
-//                val minor = closest?.id3?.toString()?.toIntOrNull()
-
-                runOnUiThread {
-                    val floorImages = mapOf(
-                        1 to R.drawable.tuke_floor1,
-                        2 to R.drawable.tuke_floor2,
-                        3 to R.drawable.tuke_floor3,
-                        4 to R.drawable.tuke_floor4,
-                        5 to R.drawable.tuke_floor5,
-                    )
+                closest?.let { it ->
+                    val major = it.id2.toString().toIntOrNull()
+                    val distance = it.distance
 
                     val detectedFloor = when (major) {
                         1 -> 1
@@ -246,29 +241,41 @@ class NavigationActivity : AppCompatActivity(), BeaconConsumer {
                         else -> null
                     }
 
-                    val floorImageView = findViewById<ImageView>(R.id.floor_image)
-                    val currentFloorTextView = findViewById<TextView>(R.id.tv_current_floor)
-                    val directionTextView = findViewById<TextView>(R.id.tv_direction)
-
                     if (detectedFloor != null) {
-                        currentFloorTextView.text = "Aktuálne poschodie: $detectedFloor"
-                        floorImages[detectedFloor]?.let {
-                            floorImageView.setImageResource(it)
-                        }
+                        runOnUiThread {
+                            val floorImageView = findViewById<ImageView>(R.id.floor_image)
+                            val currentFloorTextView = findViewById<TextView>(R.id.tv_current_floor)
+                            val directionTextView = findViewById<TextView>(R.id.tv_direction)
 
+                            val floorImages = mapOf(
+                                1 to R.drawable.tuke_floor1,
+                                2 to R.drawable.tuke_floor2,
+                                3 to R.drawable.tuke_floor3,
+                                4 to R.drawable.tuke_floor4,
+                                5 to R.drawable.tuke_floor5,
+                            )
 
-                        val directionMessage = targetFloor?.let {
-                            when {
-                                detectedFloor < it -> "Choď o poschodie vyššie"
-                                detectedFloor > it -> "Choď o poschodie nižšie"
-                                else -> "Si na správnom poschodí"
+                            currentFloorTextView.text = "Aktuálne poschodie: $detectedFloor"
+
+                            val directionMessage = if (targetFloor != null) {
+                                when {
+                                    detectedFloor < targetFloor!! -> "Choď o poschodie vyššie"
+                                    detectedFloor > targetFloor!! -> "Choď o poschodie nižšie"
+                                    else -> "Si na správnom poschodí"
+                                }
+                            } else {
+                                ""
                             }
-                        } ?: "Cieľová miestnosť nebola zvolená"
 
-                        directionTextView.text = directionMessage
+                            directionTextView.text = directionMessage
 
-                    } else {
-                        currentFloorTextView.text = "Aktuálne poschodie: Načítavam"
+                            if (detectedFloor != lastDetectedFloor) {
+                                lastDetectedFloor = detectedFloor
+                                floorImages[detectedFloor]?.let {
+                                    floorImageView.setImageResource(it)
+                                }
+                            }
+                        }
                     }
                 }
             }
